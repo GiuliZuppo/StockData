@@ -1,0 +1,18 @@
+# Utiliza una imagen base con Python instalado
+FROM python:3.8
+
+# Establece una variable de entorno para la pregunta
+ENV ASK_QUESTION="yes"
+
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copia el script y el archivo requirements.txt al directorio de trabajo
+COPY stock_data_dag
+COPY requirements.txt .
+
+# Instala las dependencias especificadas en requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Si la variable de entorno ASK_QUESTION es igual a "yes", ejecuta el script cuando se inicie el contenedor
+CMD if [ "$ASK_QUESTION" = "yes" ]; then python script.py; else sleep infinity; fi
